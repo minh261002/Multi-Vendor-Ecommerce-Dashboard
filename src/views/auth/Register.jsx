@@ -1,12 +1,31 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { FaFacebook, FaGoogle } from 'react-icons/fa'
 
 const Register = () => {
+
+    const [state, setState] = useState({
+        name: '',
+        email: '',
+        password: '',
+    });
+
+    const handleChange = (e) => {
+        setState({
+            ...state,
+            [e.target.name]: e.target.value
+        })
+    }
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        console.log(state);
+    }
+
     return (
         <div className="flex items-center justify-center min-h-screen bg-gray-100">
             <div className="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
                 <h2 className="text-2xl font-bold mb-6 text-center">Đăng Ký</h2>
-                <form>
+                <form onSubmit={handleSubmit}>
                     <div className="mb-6">
                         <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="username">
                             Họ Và Tên
@@ -15,6 +34,9 @@ const Register = () => {
                             className="shadow appearance-none border rounded w-full py-3 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                             id="name"
                             type="text"
+                            name="name"
+                            onChange={handleChange}
+                            value={state.name}
                         />
                     </div>
                     <div className="mb-6">
@@ -25,6 +47,9 @@ const Register = () => {
                             className="shadow appearance-none border rounded w-full py-3 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                             id="email"
                             type="email"
+                            name='email'
+                            onChange={handleChange}
+                            value={state.email}
                         />
                     </div>
                     <div className="mb-6">
@@ -35,6 +60,9 @@ const Register = () => {
                             className="shadow appearance-none border rounded w-full py-3 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                             id="password"
                             type="password"
+                            name='password'
+                            onChange={handleChange}
+                            value={state.password}
                         />
                     </div>
                     <div className="mb-6">
@@ -62,7 +90,7 @@ const Register = () => {
                     <div className="w-full flex items-center justify-between">
                         <button
                             className="w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-3 px-4 rounded focus:outline-none focus:shadow-outline"
-                            type="button"
+                            type="submit"
                         >
                             Đăng Ký
                         </button>
