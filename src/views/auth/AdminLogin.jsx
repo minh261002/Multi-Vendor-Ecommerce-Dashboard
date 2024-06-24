@@ -1,10 +1,15 @@
-import React, { useState } from 'react'
-import { useDispatch } from 'react-redux';
-import { admin_login } from '../../redux/Reducers/authReducer';
+import React, { useEffect, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux';
+import { admin_login, messageClear } from '../../redux/Reducers/authReducer';
+import { PropagateLoader } from 'react-spinners'
+import toast from 'react-hot-toast';
+import { useNavigate } from 'react-router-dom';
 
 const AdminLogin = () => {
 
+    const navigate = useNavigate();
     const dispatch = useDispatch();
+    const { loader, errorMessage, successMessage } = useSelector(state => state.auth);
 
     const [state, setState] = useState({
         email: '',
@@ -22,6 +27,28 @@ const AdminLogin = () => {
         e.preventDefault();
         dispatch(admin_login(state));
     }
+
+    const overideStyle = {
+        color: 'white',
+        display: 'flex',
+        margin: '0 auto',
+        height: '24px',
+        justifyContent: 'center',
+        alignItems: 'center',
+    }
+
+    useEffect(() => {
+        if (errorMessage) {
+            toast.error(errorMessage);
+            dispatch(messageClear());
+        }
+        if (successMessage) {
+            toast.success(successMessage);
+            dispatch(messageClear());
+            navigate('/');
+        }
+    }, [errorMessage, successMessage, dispatch, navigate]);
+
     return (
         <div className="flex items-center justify-center min-h-screen bg-gray-100">
             <div className="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
@@ -79,10 +106,13 @@ const AdminLogin = () => {
 
                     <div className="w-full flex items-center justify-between">
                         <button
-                            className="w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-3 px-4 rounded focus:outline-none focus:shadow-outline"
+                            className="w-full bg-[#e3181c] hover:bg-red-700 text-white font-bold py-3 px-4 rounded focus:outline-none focus:shadow-outline"
                             type="submit"
+                            disabled={loader ? true : false}
                         >
-                            Đăng Ký
+                            {
+                                loader ? <PropagateLoader cssOverride={overideStyle} color="#fff" /> : 'Đăng Nhập'
+                            }
                         </button>
                     </div>
 
