@@ -3,7 +3,7 @@ import { Link, useLocation } from 'react-router-dom';
 import { getNav } from '../navigation/index';
 import { BiLogOutCircle } from "react-icons/bi";
 
-const Sidebar = () => {
+const Sidebar = ({ showSidebar, setShowSidebar }) => {
     const [allNav, setAllNav] = useState([])
     useEffect(() => {
         const navs = getNav('admin')
@@ -14,15 +14,14 @@ const Sidebar = () => {
 
 
     return (
-        <div className={`w-[260px] fixed bg-[#fff] z-50 top-0 h-screen shadow-[0_0_15px_0_rgb(34_41_47_/_5%)] transition-all `}>
-            <div className='h-[70px] flex justify-center items-center'>
-                <Link to='/' className='w-[180px] h-[50px]'>
-                    <img className='w-full h-full' src="/images/logo.png" alt="" />
-                </Link>
-            </div>
+        <div className={`w-[260px] fixed bg-[#fff] z-50 top-0 h-screen shadow-[0_0_15px_0_rgb(34_41_47_/_5%)] transition-all ${showSidebar ? 'left-0' : '-left-[260px] lg:left-0'} `}>            <div className='h-[70px] flex justify-center items-center'>
+            <Link to='/' className='w-[180px] h-[50px]'>
+                <img className='w-full h-full' src="/images/logo.png" alt="" />
+            </Link>
+        </div>
 
-            <div className='px-[16px]'>
-                <ul>
+            <div className='px-[16px] mt-[24px]'>
+                <ul className='flex flex-col gap-4'>
                     {
                         allNav.map((n, i) => <li key={i}>
                             <Link to={n.path} className={`${pathname === n.path ? ' bg-[#e3181c] shadow-indigo-500/50 text-white duration-500' : 'text-[#030811] font-bold duration-200 '} px-[12px] py-[9px] rounded-sm flex justify-start items-center gap-[12px] hover:pl-4 transition-all w-full mb-1 `} >
